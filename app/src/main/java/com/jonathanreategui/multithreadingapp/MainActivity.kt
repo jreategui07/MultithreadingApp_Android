@@ -1,12 +1,10 @@
 package com.jonathanreategui.multithreadingapp
 
 import android.os.Bundle
-import android.os.Handler
-import android.os.Looper
+import android.util.Log
 import android.view.View
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
-import kotlinx.coroutines.NonCancellable.start
 
 class MainActivity : AppCompatActivity() {
 
@@ -34,8 +32,18 @@ class MainActivity : AppCompatActivity() {
 
     private fun launchThread1() {
         val runnable1 = Runnable {
-            runOnUiThread {
-                tvThread1.text = "Thread 1: On."
+            try {
+                runOnUiThread {
+                    tvThread1.text = "Thread 1: On."
+                }
+                simulateTask("Thread 1", 5)
+                runOnUiThread {
+                    tvThread1.text = "Thread 1: Done."
+                }
+            } catch (e: InterruptedException) {
+                runOnUiThread {
+                    tvThread1.text = "Thread 1: Stopped."
+                }
             }
         }
         thread1 = Thread(runnable1).apply { start() }
@@ -43,34 +51,53 @@ class MainActivity : AppCompatActivity() {
 
     private fun launchThread2() {
         val runnable2 = Runnable {
-            Handler(Looper.getMainLooper()).postDelayed({
-                tvThread2.text = "Thread 2: On."
-            }, 1500)
+            try {
+                runOnUiThread {
+                    tvThread2.text = "Thread 2: On."
+                }
+                simulateTask("Thread 2", 10)
+                runOnUiThread {
+                    tvThread2.text = "Thread 2: Done."
+                }
+            } catch (e: InterruptedException) {
+                runOnUiThread {
+                    tvThread2.text = "Thread 2: Stopped."
+                }
+            }
         }
         thread2 = Thread(runnable2).apply { start() }
     }
 
     private fun launchThread3() {
         val runnable3 = Runnable {
-            Handler(Looper.getMainLooper()).postDelayed({
-                tvThread3.text = "Thread 3: On."
-            }, 3000)
+            try {
+                runOnUiThread {
+                    tvThread3.text = "Thread 2: On."
+                }
+                simulateTask("Thread 2", 15)
+                runOnUiThread {
+                    tvThread3.text = "Thread 2: Done."
+                }
+            } catch (e: InterruptedException) {
+                runOnUiThread {
+                    tvThread3.text = "Thread 2: Stopped."
+                }
+            }
         }
         thread3 = Thread(runnable3).apply { start() }
     }
 
+    fun simulateTask(thread: String, seconds: Int) {
+        for (i in 1..seconds) {
+            Log.d(thread, "$thread is working... $i")
+            Thread.sleep(1000)
+        }
+    }
 
     fun stopThreads(view: View) {
         thread1?.interrupt()
         thread2?.interrupt()
         thread3?.interrupt()
-        resetValues()
-    }
-
-    private fun resetValues() {
-        tvThread1.text = "Thread 1: Off."
-        tvThread2.text = "Thread 2: Off."
-        tvThread3.text = "Thread 3: Off."
     }
 }
 
