@@ -45,7 +45,7 @@
             android:id="@+id/tvThread1"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Thread 1"
+            android:text="Thread 1: Off."
             android:textSize="16sp"
             android:textColor="#000000"
             android:layout_marginBottom="20dp" />
@@ -54,7 +54,7 @@
             android:id="@+id/tvThread2"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Thread 2"
+            android:text="Thread 2: Off."
             android:textSize="16sp"
             android:textColor="#000000"
             android:layout_marginBottom="20dp" />
@@ -63,9 +63,19 @@
             android:id="@+id/tvThread3"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Thread 3"
+            android:text="Thread 3: Off."
             android:textSize="16sp"
             android:textColor="#000000"
             android:layout_marginBottom="20dp" />
+
+        <Button
+            android:id="@+id/stopButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Stop All Threads"
+            android:backgroundTint="#FF0000"
+            android:textColor="#FFFFFF"
+            android:onClick="stopThreads" />
+
     </LinearLayout>
 </androidx.constraintlayout.widget.ConstraintLayout>
